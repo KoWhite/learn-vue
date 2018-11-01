@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.0/velocity.min.js"></script>
+    <title>vue中多个元素或组件的过渡</title>
+    <style>
+        .fake-enter,
+        .fake-leave-to{
+            opacity: 0;
+        }
+        .fake-enter-active,
+        .fake-leave-active{
+            transition: opacity 1s;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <transition name="fake" mode="out-in">
+            <component :is="type"></component>
+        </transition>
+        <button @click="handleClick">点我，快！</button>
+    </div>
+
+    <script>
+        Vue.component('child-one',{
+            template:'<div>Child1</div>'
+        })
+        Vue.component('child-two',{
+            template:'<div>Child2</div>'
+        })
+
+        var vm = new Vue({
+            el:'#app',
+            data: {
+                type: 'child-one'
+            },
+            methods: {
+                handleClick: function() {
+                    this.type = this.type === 'child-one' ? 'child-two' : 'child-one'
+                }
+            }
+        })
+    </script>
+</body>
+</html>

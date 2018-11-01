@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue中的列表过渡</title>
+    <script src="../vue.js"></script>
+    <style>
+        .fake-enter,
+        .fake-leave-to{
+            opacity: 0;
+        }
+        .fake-enter-active,
+        .fake-leave-active{
+            transition: opacity 2s;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 相当于把列表的每一项加上transition -->
+        <transition-group name='fake'>
+            <div v-for="item in list" :key="item.id">{{item.title}}</div>
+        </transition-group>
+
+        <button @click="handleBtnClick">add</button>
+    </div>
+
+    <script>
+        var count = 0;
+
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                list:[]
+            },
+            methods:{
+                handleBtnClick: function () {
+                    this.list.push({
+                        id: ++count,
+                        title:'hello world'
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>

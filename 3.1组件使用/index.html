@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件使用</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <!-- 使用is解决HTML5规范的问题 -->
+        <table>
+            <tbody>
+                <tr is="row">1</tr>
+                <tr is="row">2</tr>
+                <tr is="row">3</tr>
+            </tbody>
+        </table>
+        <div 
+            ref="hello"
+            @click="handleClick"
+        >
+            hello world</div>
+            <!-- ref的使用 -->
+            <counter ref="one" @change=handleChange></counter>
+            <counter ref="two" @change=handleChange></counter>
+            <div>{{total}}</div>
+    </div>
+
+    <script>
+        //在子组件定义data，data只能是函数，不能是对象。
+        Vue.component('row',{
+            data:function(){
+                return{content:"this is a row"}
+            },
+            template:'<tr><td>{{content}}</td></tr>'
+        })
+
+        Vue.component('counter',{
+            template:'<div @click="handleClick">{{number}}</div>',
+            data:function(){
+                return{
+                    number:0
+                }
+            },
+            methods:{
+                handleClick:function(){
+                    this.number ++
+                    this.$emit('change')//传出，表改变
+                }
+            }
+        })
+
+        var vm = new Vue({
+            el:'#root',
+            data:{
+                total:0
+            },
+            methods:{
+                handleClick:function(){
+                    this.$refs.hello
+                },
+                //求和功能完成
+                handleChange:function(){
+                    this.total = this.$refs.one.number + this.$refs.two.number
+                }
+            }
+        })
+    </script>
+</body>
+</html>

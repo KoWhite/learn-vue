@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue中Css动画的原理</title>
+    <script src="../vue.js"></script>
+    <style>
+        .fake-enter,
+        .fake-leave-to{
+            opacity: 0;
+        }
+        .fake-enter-active,
+        .fake-leave-active{
+            transition: opacity 3s;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <transition name="fake"><!-- 默认没有name，css是v-enter -->
+            <div v-if="show">
+                hello world
+            </div>
+        </transition>
+        <button @click="handleClick">切换</button>
+    </div>
+    
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                show:true
+            },
+            methods:{
+                handleClick:function(){
+                    this.show = !this.show
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>计算属性、方法、侦听器</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+
+    <div id ="app">
+        {{fullName}}
+        {{age}}
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                firstname: "muhaha",
+                lastname:"wadachui",
+                fullName:"Dell Lee",
+                age:28
+            },
+            //watch具备缓存，但代码量大，还是computed最好
+            watch:{
+                firstname:function(){
+                    console.log("1111")
+                    this.fullName = this.firstname + ' ' + this.lastname;
+                },
+                lastname: function(){
+                    this.fullName = this.firstname + ' ' + this.lastname;
+                }
+            }
+            //不如计算属性有效，此方式没有缓存
+           /*  methods: {
+                fullName:function(){
+                    return this.firstname + this.lastname
+                }
+            } */
+            //计算属性,防止数据多余
+            /* computed:{
+                fullName:function(){
+                    console.log("计算了一次");
+                    return this.firstname + ' ' + this.lastname
+                }
+            } */
+        })
+    </script>
+</body>
+</html>

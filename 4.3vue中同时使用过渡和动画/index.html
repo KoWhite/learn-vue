@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue同时使用过渡和动画</title>
+    <script src="../vue.js"></script>
+    <link href="../animate.css" type="text/css" rel="stylesheet">
+    <!-- 
+    1、必须使用自定义名称形式
+    2、自定义名称必须为animated
+    3、动画效果名字写在第二个类名
+    -->
+    <style>
+        .fake-enter,
+        .fake-leave-to{
+            opacity: 0;
+        }
+        .fake-enter-active,
+        .fake-leave-active{
+            transition: opacity 1s;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+    1、appear、appear-active实现页面初始动画。
+    2、如何即使用animated动画，又使用过渡动画。
+    3、当两个动画同时使用，以type设定以那方时长为标志时长
+    4、可以用duration自定义动画时长 
+    -->
+    <div id="app">
+        <transition 
+          :duration="{enter:5000,leave:10000}"
+          name="fake"
+          appear
+          enter-active-class="animated swing fake-enter-active"
+          leave-active-class="animated shake fake-leave-active"
+          appear-active-class="animated swing"
+        ><!-- 默认没有name，css是v-enter -->
+            <div v-if="show">
+                hello world
+            </div>
+        </transition>
+        <button @click="handleClick">切换</button>
+    </div>
+    
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                show:true
+            },
+            methods:{
+                handleClick:function(){
+                    this.show = !this.show
+                }
+            }
+        })
+    </script>
+</body>
+</html>
